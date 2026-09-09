@@ -13,3 +13,4 @@ blocks:
           commands:
             - echo "Hello from Windows user codebase!"
             - echo "Semaphore Pipeline executed successfully."
+            
