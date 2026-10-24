@@ -101,21 +101,8 @@ blocks:
             - echo "Building production Docker image..."
             - echo "Running multi-stage build..."
             - echo "Build completed successfully!"
-  - name: "\U0001F433 Docker"
-    dependencies:
-      - "\U0001F4E6 Build"
-    task:
-      secrets:
-        - name: dockerhub-credentials
-      jobs:
-        - name: "\U0001F4E6 Build and Push"
-          commands:
-            - echo "Logging into Docker registry..."
-            - echo "Pushing production image..."
-            - echo "Docker image published successfully!"
   - name: "\U0001F680 Deploy"
-    dependencies:
-      - "\U0001F433 Docker"
+    dependencies: []
     task:
       secrets:
         - name: aws-credentials
