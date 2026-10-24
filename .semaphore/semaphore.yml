@@ -110,9 +110,26 @@ blocks:
       jobs:
         - name: "\U0001F4E6 Build and Push"
           commands:
-            - echo "Logging into Docker registry..."
-            - echo "Pushing production image..."
-            - echo "Docker image published successfully!"
+            - 'version: v1.0'
+            - 'name: Build and Push'
+            - 'agent:'
+            - '  machine:'
+            - '    type: f1-standard-2'
+            - 'blocks:'
+            - '  - name: "Build & Push Docker Image"'
+            - '    task:'
+            - '      secrets:'
+            - '        - name: dockerhub-credentials  # <--- Connects your saved secret'
+            - '      jobs:'
+            - '        - name: Build and Push'
+            - '          commands:'
+            - '            - checkout'
+            - '            # 1. Log in to Docker Hub using the secrets'
+            - '            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+            - '            # 2. Build the Docker image'
+            - '            - docker build -t $DOCKER_USERNAME/my-app:latest .'
+            - '            # 3. Push the image to Docker Hub'
+            - '            - docker push $DOCKER_USERNAME/my-app:latest'
   - name: "\U0001F680 Deploy"
     dependencies:
       - "\U0001F433 Docker"
@@ -126,3 +143,8 @@ blocks:
             - echo "Updating container service..."
             - echo "Rolling out new containers..."
             - echo "Deployment completed successfully!"
+        - name: 'Job #2'
+          commands:
+            - 'commands:'
+            - '  # Triggers your cloud host to pull the latest Docker image from Docker Hub'
+            - '  - curl -X POST https://api.render.com/deploy/srv-xxxx... # Example Deploy Hook URL'
