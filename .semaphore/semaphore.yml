@@ -89,12 +89,11 @@ blocks:
             - echo "Security scan completed successfully!"
   - name: "\U0001F4E6 Build"
     dependencies:
-      - Deploy
-      - ✨ Code Quality
-      - "\U0001F310 E2E Tests"
-      - "\U0001F50D Integration Tests"
-      - "\U0001F510 Security"
       - "\U0001F9EA Unit Tests"
+      - "\U0001F50D Integration Tests"
+      - "\U0001F310 E2E Tests"
+      - ✨ Code Quality
+      - "\U0001F510 Security"
     task:
       jobs:
         - name: "\U0001F528 Build Production"
@@ -102,10 +101,28 @@ blocks:
             - echo "Building production Docker image..."
             - echo "Running multi-stage build..."
             - echo "Build completed successfully!"
-  - name: Deploy
+  - name: "\U0001F433 Docker"
     dependencies:
       - "\U0001F4E6 Build"
     task:
+      secrets:
+        - name: dockerhub-credentials
       jobs:
-        - name: Deploy to production
-          commands: []
+        - name: "\U0001F4E6 Build and Push"
+          commands:
+            - echo "Logging into Docker registry..."
+            - echo "Pushing production image..."
+            - echo "Docker image published successfully!"
+  - name: "\U0001F680 Deploy"
+    dependencies:
+      - "\U0001F433 Docker"
+    task:
+      secrets:
+        - name: aws-credentials
+      jobs:
+        - name: "\U0001F30D Deploy to Production"
+          commands:
+            - echo "Configuring deployment credentials..."
+            - echo "Updating container service..."
+            - echo "Rolling out new containers..."
+            - echo "Deployment completed successfully!"
