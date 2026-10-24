@@ -111,9 +111,9 @@ blocks:
         - name: "\U0001F4E6 Build and Push"
           commands:
             - checkout
-            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            - 'docker build -t $DOCKER_USERNAME/my-app:latest .'
-            - 'docker push $DOCKER_USERNAME/my-app:latest'
+            - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            - 'docker build -t $DOCKER_USER/my-app:latest .'
+            - 'docker push $DOCKER_USER/my-app:latest'
   - name: "\U0001F680 Deploy"
     dependencies:
       - "\U0001F433 Docker"
