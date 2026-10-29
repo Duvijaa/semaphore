@@ -118,7 +118,7 @@ blocks:
       - "\U0001F433 Docker"
     task:
       secrets:
-        - name: aws-credentials
+        - name: render-deploy-key
       jobs:
         - name: "\U0001F30D Deploy to Production"
           commands:
